@@ -45,19 +45,9 @@ public:
     }
 };
 
-// Verwende ein Standard-WorldScript, um den NPC beim Laden des Servers sauber zu registrieren
-class mod_progression_trainer_loader : public WorldScript
-{
-public:
-    mod_progression_trainer_loader() : WorldScript("mod_progression_trainer_loader") { }
-
-    void OnStartup() override
-    {
-        new npc_progression_trainer();
-    }
-};
-
+// DER FINALE FIX: Wenn der Ordner "mod-progression-trainer" heißt, 
+// sucht der AzerothCore-Scriptloader nach EXAKT diesem zusammengeschriebenen Namen!
 void Addmod_progression_trainerScripts()
 {
-    new mod_progression_trainer_loader();
+    new npc_progression_trainer();
 }
