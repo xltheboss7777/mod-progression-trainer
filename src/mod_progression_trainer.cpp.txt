@@ -45,7 +45,19 @@ public:
     }
 };
 
+// Verwende ein Standard-WorldScript, um den NPC beim Laden des Servers sauber zu registrieren
+class mod_progression_trainer_loader : public WorldScript
+{
+public:
+    mod_progression_trainer_loader() : WorldScript("mod_progression_trainer_loader") { }
+
+    void OnStartup() override
+    {
+        new npc_progression_trainer();
+    }
+};
+
 void Addmod_progression_trainerScripts()
 {
-    new npc_progression_trainer();
+    new mod_progression_trainer_loader();
 }
