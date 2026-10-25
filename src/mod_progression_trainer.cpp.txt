@@ -45,9 +45,20 @@ public:
     }
 };
 
-// DER FINALE FIX: Wenn der Ordner "mod-progression-trainer" heißt, 
-// sucht der AzerothCore-Scriptloader nach EXAKT diesem zusammengeschriebenen Namen!
-void Addmod_progression_trainerScripts()
+// Das Skript instanziiert sich hier beim Laden der C++ Datei von ganz alleine.
+// Dadurch entfällt jegliche Abhängigkeit zum automatischen Scriptloader!
+static void AddMyProgressionTrainerScript()
 {
     new npc_progression_trainer();
 }
+
+// Wir hängen uns in das Standard-Lade-Array von AC ein
+struct MyProgressionTrainerLoader
+{
+    MyProgressionTrainerLoader()
+    {
+        AddMyProgressionTrainerScript();
+    }
+};
+
+static MyProgressionTrainerLoader global_loader;
