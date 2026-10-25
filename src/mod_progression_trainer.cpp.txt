@@ -62,3 +62,9 @@ struct MyProgressionTrainerLoader
 };
 
 static MyProgressionTrainerLoader global_loader;
+// DIESER BLOCK BEHEBT DEN LINKER-FEHLER ENDGÜLTIG:
+// Wir stellen dem Docker-Scriptloader die Funktion bereit, die er im Cache vermisst.
+extern "C" void Addmod_progression_trainerScripts()
+{
+    // Bleibt leer, da sich das Skript bereits weiter oben selbst registriert!
+}
