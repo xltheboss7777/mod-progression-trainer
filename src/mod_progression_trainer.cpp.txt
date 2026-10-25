@@ -1,0 +1,51 @@
+#include "ScriptMgr.h"
+#include "Player.h"
+#include "ScriptedGossip.h"
+
+class npc_progression_trainer : public CreatureScript
+{
+public:
+    npc_progression_trainer() : CreatureScript("npc_progression_trainer") { }
+
+    bool OnGossipHello(Player* player, Creature* creature) override
+    {
+        std::string classMenuText = "Ich möchte neue Klassenfertigkeiten erlernen.";
+        AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, classMenuText, GOSSIP_SENDER_MAIN, 1);
+
+        if (player->HasSkill(SKILL_BLACKSMITHING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Schmiedekunst-Training", GOSSIP_SENDER_MAIN, 10);
+        if (player->HasSkill(SKILL_MINING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Bergbau-Training", GOSSIP_SENDER_MAIN, 11);
+        if (player->HasSkill(SKILL_ALCHEMY)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Alchemie-Training", GOSSIP_SENDER_MAIN, 12);
+        if (player->HasSkill(SKILL_ENGINEERING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Ingenieurskunst-Training", GOSSIP_SENDER_MAIN, 13);
+        if (player->HasSkill(SKILL_ENCHANTING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Verzauberkunst-Training", GOSSIP_SENDER_MAIN, 14);
+        if (player->HasSkill(SKILL_TAILORING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Schneiderei-Training", GOSSIP_SENDER_MAIN, 15);
+        if (player->HasSkill(SKILL_LEATHERWORKING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Lederverarbeitung-Training", GOSSIP_SENDER_MAIN, 16);
+        if (player->HasSkill(SKILL_SKINNING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Kürschnerei-Training", GOSSIP_SENDER_MAIN, 17);
+        if (player->HasSkill(SKILL_HERBALISM)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Kräuterkunde-Training", GOSSIP_SENDER_MAIN, 18);
+        if (player->HasSkill(SKILL_JEWELCRAFTING)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Juwelenschleifen-Training", GOSSIP_SENDER_MAIN, 19);
+        if (player->HasSkill(SKILL_INSCRIPTION)) AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Inschriftenkunde-Training", GOSSIP_SENDER_MAIN, 20);
+
+        AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Erste Hilfe-Training", GOSSIP_SENDER_MAIN, 30);
+        AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Angeln-Training", GOSSIP_SENDER_MAIN, 31);
+        AddGossipItemForPlayer(player, GOSSIP_ICON_TRAINER, "Kochkunst-Training", GOSSIP_SENDER_MAIN, 32);
+
+        if (player->GetBasePrimarySkills().size() < 2)
+        {
+            AddGossipItemForPlayer(player, GOSSIP_ICON_CHAT, "Ich möchte einen neuen Hauptberuf erlernen...", GOSSIP_SENDER_MAIN, 100);
+        }
+
+        SendGossipMenuForPlayer(player, 1, creature->GetGUID());
+        return true;
+    }
+
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
+    {
+        CloseGossipMenuForPlayer(player);
+        player->GetSession()->SendTrainerList(creature->GetGUID()); 
+        return true;
+    }
+};
+
+void Addmod_progression_trainerScripts()
+{
+    new npc_progression_trainer();
+}
