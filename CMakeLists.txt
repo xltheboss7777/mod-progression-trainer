@@ -1,16 +1,12 @@
-# Wir nutzen den universellen CMake-Standard statt dem AC-eigenen Makro
-add_library(mod-progression-trainer OBJECT
-    src/mod_progression_trainer.cpp
-)
+# Wir registrieren eine Funktion, die AzerothCore erst ausführt, 
+# NACHDEM der gesamte Core-Quellcode erfolgreich eingelesen wurde.
+macro(AFTER_SRC_LOAD)
 
-# Wir sagen dem Haupt-Compiler, wo er die Header-Dateien des Cores findet
-target_include_directories(mod-progression-trainer PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/server/shared
-    ${CMAKE_SOURCE_DIR}/src/server/game
-    ${CMAKE_SOURCE_DIR}/src/server/database
-)
+    # Jetzt existiert das Ziel "scripts" und wir können unsere Datei sicher anhängen
+    target_sources(scripts PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/mod_progression_trainer.cpp
+    )
+    
+    message(STATUS "--> [SUCCESS] mod-progression-trainer wurde erfolgreich über AFTER_SRC_LOAD injiziert!")
 
-# Wir hängen unser Skript an die globalen Weltskripte an
-target_link_libraries(scripts INTERFACE mod-progression-trainer)
-
-message(STATUS "--> mod-progression-trainer erfolgreich via Native-CMake geladen!")
+endmacro()
