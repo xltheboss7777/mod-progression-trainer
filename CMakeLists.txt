@@ -1,7 +1,5 @@
-# Wir binden die Datei direkt in die globale Script-Bibliothek ein
-# Das umgeht den anfälligen automatischen gen_scriptloader von Docker
-target_sources(scripts PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/mod_progression_trainer.cpp
-)
+ac_add_module(mod-progression-trainer)
 
-message(STATUS "--> Mod-Progression-Trainer manuell in Scripts injiziert (Docker-Safe)!")
+target_sources(${AC_MODULE_NAME} PRIVATE
+    src/mod_progression_trainer.cpp
+)
