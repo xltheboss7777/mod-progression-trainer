@@ -1,7 +1,8 @@
 -- 1. NPC in creature_template erstellen
 DELETE FROM `creature_template` WHERE `entry` = 99999;
-INSERT INTO `creature_template` (`entry`, `modelid1`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `scale`, `rank`, `unit_class`, `unit_flags2`, `type`, `AIName`, `ScriptName`) VALUES
-(99999, 26084, 'Meister der Pfade', 'Klassen- & Handwerkstrainer', 80, 80, 35, 1, 1, 0, 1, 2048, 7, 'SmartAI', '');
+INSERT INTO `creature_template` (`entry`, `modelid1`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `npcflag`, `scale`, `rank`, `unit_class`, `unit_flags2`, `type`, `AIName`, `ScriptName`, `trainer_type`) VALUES
+(99999, 26084, 'Meister der Pfade', 'Klassen- & Handwerkstrainer', 80, 80, 35, 17, 1, 0, 1, 2048, 7, 'SmartAI', '', 0);
+-- npcflag 17 = Gossip + Trainer, trainer_type 0 = Klasse (wird von mod-individual-progression abgefangen)
 
 -- 2. Das Beschwörungs-Item in item_template erstellen
 DELETE FROM `item_template` WHERE `entry` = 99999;
@@ -18,6 +19,6 @@ DELETE FROM `smart_scripts` WHERE `entryorguid` = 99999 AND `source_type` = 0;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
 (99999, 0, 0, 0, 54, 0, 0, 0, 0, 0, 0, 0, 41, 300000, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'NPC nach 5 Minuten despawnen');
 
--- 5. SmartAI Logik für das Anklicken (Öffnet das Trainerfenster)
+-- 5. SmartAI Logik für das Anklicken (Sicheres Senden des Trainer-Interfaces)
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-(99999, 0, 1, 0, 62, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Bei Gossip-Interaktion passendes Trainerfenster oeffnen');
+(99999, 0, 1, 0, 62, 0, 0, 0, 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'Bei Interaktion Trainer-Liste des Cores oeffnen');
